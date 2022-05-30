@@ -1,4 +1,4 @@
-<form class="row g-3">
+<!-- <form class="row g-3">
   <div class="col-auto">
     <label for="txtSearch" class="visually-hidden">Search By Brand</label>
     <input type="text" [(ngModel)]="userMail" name="txtSearch" class="form-control" id="txtSearch" placeholder="Search By Brand">
@@ -6,7 +6,7 @@
   <div class="col-auto">
     <button type="submit" class="btn btn-primary mb-3" (click)="searchUser()">Search</button>
   </div>
-</form>
+</form> -->
 
 <!-- <table class="table table-dark table-striped">
   <thead>
@@ -29,8 +29,22 @@
   </tbody>
 </table> -->
 
-<div *ngIf="loaded">
-  <div>Nombre: {{</div>
-</div>
+<!-- <div *ngIf="loaded">
+  <div>Nombre: {{user?.userMail}}</div>
+</div> -->
 
+
+<form class="row g-3">
+  <div class="col-auto">
+    <label for="txtUserName" class="visually-hidden">User Name</label>
+    <input type="text" class="form-control" [(ngModel)]="userForms.userName" id="txtUserName" name="txtUserName" placeholder="User Name">
+  </div>
+  <div class="col-auto">
+    <label for="txtUserMail" class="visually-hidden">User Mail</label>
+    <input type="text" class="form-control" [(ngModel)]="userForms.userMail" id="txtUserMail" name="txtUserMail" placeholder="User Mail">
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn btn-primary mb-3" (click)="newUser()">Add</button>
+  </div>
+</form>
 

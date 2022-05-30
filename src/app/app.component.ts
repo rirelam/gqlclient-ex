@@ -16,7 +16,7 @@ query{
 `;
 
 const Get_User = gql`
-query ($userMail:String){
+query ($userMail:String!){
   user(userMail:$userMail){
     userName,
     userMail,
@@ -26,6 +26,15 @@ query ($userMail:String){
   }
 }`;
 
+const Post_Save = gql
+`mutation ($input:AddUserInput! ){
+  addUser(input:$input) {
+     userName,
+     userMail,
+  }
+ }`
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -33,8 +42,9 @@ query ($userMail:String){
 })
 export class AppComponent implements OnInit {
   user?: User;
+  allUsers: User[] = [];
   userMail: string = '';
-  loaded = false
+  loaded = false;
 
   constructor(private apollo: Apollo) { }
 
@@ -55,14 +65,37 @@ export class AppComponent implements OnInit {
    this.apollo.watchQuery<any>({
       query: Get_User,
      variables: {
-        useMail: this.userMail
+        userMail: this.userMail
       }
     })
     .valueChanges
     .subscribe(({data, loading}) => {
       console.log(loading);
+      console.log(`El usuario es: ${JSON.stringify(data.user)}`);
       this.user = data.user as User;
-      this.loaded = !!!this.user;
+      this.loaded = this.user !== null;
     });
+  }
+
+  userForms = {
+    userMail:'',
+    userName:'',
+  };
+
+  newUser(){
+    this.apollo.mutate({
+      mutation:Post_Save,
+      variables:{
+        input: {
+          userMail: this.userForms.userMail,
+          userName: this.userForms.userName,
+        }
+      }
+    }).subscribe(({ data }) => {
+      console.log('got data', data);
+      // let users = Object.assign([], this.allUsers)
+      // users.unshift(data["Save"]);
+      // this.allUsers = users;
+    })
   }
 }
